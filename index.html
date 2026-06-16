@@ -351,10 +351,14 @@ async function startRecreation() {
       ? `<audio controls><source src="${voiceUrl}" type="audio/mpeg"></audio>`
       : `<p style="font-size:13px;color:#888">${analysis.voix_instructions}</p>`;
 
-    const vid = document.getElementById('r-video');
-    vid.innerHTML = videoResult
-      ? `<video controls playsinline style="width:100%;border-radius:10px"><source src="${videoResult}" type="video/mp4"></video>`
-      : `<div class="generating-video"><p style="color:var(--gray-5);font-size:14px">Crédits Runway insuffisants.<br>Recharge sur <a href="https://runwayml.com" style="color:var(--blue)">runwayml.com</a></p></div>`;
+   const vid = document.getElementById('r-video');
+    vid.innerHTML = `
+      <div style="background:var(--gray-3);border-radius:10px;padding:16px;margin-top:6px">
+        <p style="font-size:13px;color:var(--gray-5);margin-bottom:10px">Copie ce prompt et génère sur Runway :</p>
+        <div style="font-family:monospace;font-size:12px;background:var(--gray-2);padding:10px;border-radius:8px;margin-bottom:12px;word-break:break-word;color:var(--gray-6)">${runwayPrompt}</div>
+        <button onclick="navigator.clipboard.writeText('${runwayPrompt.replace(/'/g,"\\'")}').then(()=>this.textContent='✓ Copié !')" style="width:100%;padding:10px;background:var(--accent);color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:8px">Copier le prompt</button>
+        <a href="https://app.runwayml.com/video-tools/teams/maximebourdeau63/ai-tools/generate?tool=video&mode=tools" target="_blank" style="display:block;width:100%;padding:10px;background:var(--gray-2);color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none">Ouvrir Runway →</a>
+      </div>`;
 
     goTo('result', 2);
     btn.textContent = 'Relancer';

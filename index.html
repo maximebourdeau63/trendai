@@ -331,20 +331,11 @@ async function startRecreation() {
     } catch(e) {}
     setStep(3, voiceUrl ? 'done' : 'done', voiceUrl ? 'Voix générée !' : 'Quota atteint');
 
-    setStep(4, 'running', 'Génération vidéo Runway (2-3 min)...');
+   setStep(4, 'running', 'Préparation du prompt Runway...');
+    await sleep(800);
+    const runwayPrompt = analysis.runway_prompt;
+    setStep(4, 'done', 'Prompt prêt — ouvre Runway ci-dessous');
     let videoResult = null;
-    try {
-      const rr = await fetch(`${SERVER}/video`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ prompt: analysis.runway_prompt })
-      });
-      if (rr.ok) {
-        const rd = await rr.json();
-        if (rd.url) videoResult = rd.url;
-      }
-    } catch(e) {}
-    setStep(4, 'done', videoResult ? 'Vidéo générée !' : 'Crédits Runway insuffisants');
 
     setStep(5, 'running', 'Assemblage...');
     await sleep(600);

@@ -12,7 +12,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     :root {
       --black: #0a0a0a; --white: #ffffff; --gray-2: #1a1a1a; --gray-3: #2a2a2a;
-      --gray-5: #888888; --gray-6: #cccccc; --accent: #ff2d55; --blue: #0a84ff; --green: #30d158;
+      --gray-5: #888888; --accent: #ff2d55; --blue: #0a84ff; --green: #30d158;
       --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
     html, body { height: 100%; background: var(--black); color: var(--white); font-family: var(--font); overflow: hidden; }
@@ -80,8 +80,11 @@
     .result-block { background: var(--gray-2); border-radius: 14px; padding: 14px; margin-bottom: 10px; border: 0.5px solid var(--gray-3); }
     .result-label { font-size: 11px; color: var(--gray-5); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
     .result-text { font-size: 14px; line-height: 1.6; }
-    audio, video { width: 100%; border-radius: 10px; margin-top: 6px; }
-    .download-btn { display: block; width: 100%; padding: 12px; background: var(--green); color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; margin-top: 8px; }
+    video { width: 100%; border-radius: 10px; margin-top: 6px; }
+    .download-btn { display: block; width: 100%; padding: 14px; background: var(--green); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; text-align: center; text-decoration: none; margin-top: 10px; }
+    .style-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 16px; }
+    .style-btn { padding: 12px; background: var(--gray-2); border: 0.5px solid var(--gray-3); border-radius: 12px; color: var(--white); font-size: 13px; cursor: pointer; text-align: center; }
+    .style-btn.active { border-color: var(--accent); background: rgba(255,45,85,0.1); color: var(--accent); font-weight: 600; }
   </style>
 </head>
 <body>
@@ -92,7 +95,6 @@
   </div>
   <div class="content">
 
-    <!-- PAGE DÉCOUVRIR -->
     <div class="page active" id="page-discover">
       <div class="input-box">
         <input type="text" id="keyword" placeholder="Mot-clé, hashtag..." />
@@ -109,43 +111,38 @@
       </div>
     </div>
 
-    <!-- PAGE CARTOON -->
     <div class="page" id="page-cartoon">
-      <div id="cartoon-empty" class="empty"><div class="empty-icon">🎬</div><p>Sélectionne d'abord une vidéo dans "Découvrir"</p></div>
+      <div id="cartoon-empty" class="empty"><div class="empty-icon">🎨</div><p>Sélectionne d'abord une vidéo dans "Découvrir"</p></div>
       <div id="cartoon-content" style="display:none">
         <div class="selected-banner">
           <div class="selected-banner-label">Vidéo sélectionnée</div>
           <div class="selected-banner-title" id="sel-title">—</div>
           <div class="selected-banner-meta" id="sel-meta">—</div>
         </div>
-        <div class="section-title">Pipeline cartoon IA</div>
+        <div class="section-title">Style cartoon</div>
+        <div class="style-grid">
+          <div class="style-btn active" onclick="selectStyle(this,'illustration-v20')">🎨 Illustration</div>
+          <div class="style-btn" onclick="selectStyle(this,'anime-v5.5')">⚡ Anime</div>
+          <div class="style-btn" onclick="selectStyle(this,'illustration-v9.1')">🖌 Cartoon 2D</div>
+          <div class="style-btn" onclick="selectStyle(this,'anime-v10')">✨ Manga</div>
+        </div>
+        <div class="section-title">Pipeline</div>
         <div>
           <div class="step"><div class="step-icon pending" id="si1">1</div><div class="step-body"><div class="step-name">Téléchargement vidéo</div><div class="step-desc" id="sd1">Récupération de la vidéo TikTok</div></div></div>
-          <div class="step"><div class="step-icon pending" id="si2">2</div><div class="step-body"><div class="step-name">Extraction du texte</div><div class="step-desc" id="sd2">AssemblyAI extrait chaque mot</div></div></div>
-          <div class="step"><div class="step-icon pending" id="si3">3</div><div class="step-body"><div class="step-name">Analyse IA du style</div><div class="step-desc" id="sd3">GPT-4o analyse le style visuel</div></div></div>
-          <div class="step"><div class="step-icon pending" id="si4">4</div><div class="step-body"><div class="step-name">Transformation cartoon</div><div class="step-desc" id="sd4">DomoAI transforme en cartoon Family Guy</div></div></div>
-          <div class="step"><div class="step-icon pending" id="si5">5</div><div class="step-body"><div class="step-name">Assemblage final</div><div class="step-desc" id="sd5">Vidéo cartoon prête à télécharger</div></div></div>
+          <div class="step"><div class="step-icon pending" id="si2">2</div><div class="step-body"><div class="step-name">Transformation cartoon</div><div class="step-desc" id="sd2">DomoAI transforme la vidéo en cartoon</div></div></div>
+          <div class="step"><div class="step-icon pending" id="si3">3</div><div class="step-body"><div class="step-name">Prête à télécharger</div><div class="step-desc" id="sd3">Ta vidéo cartoon est prête</div></div></div>
         </div>
-        <button class="btn-main" id="rec-btn" onclick="startCartoon()">Lancer la transformation cartoon</button>
+        <button class="btn-main" id="rec-btn" onclick="startCartoon()">🎨 Lancer la transformation</button>
       </div>
     </div>
 
-    <!-- PAGE RÉSULTAT -->
     <div class="page" id="page-result">
       <div id="result-empty" class="empty"><div class="empty-icon">⏳</div><p>Lance d'abord une transformation</p></div>
       <div id="result-content" style="display:none">
-        <div class="section-title">Ta vidéo cartoon</div>
+        <div class="section-title">Ta vidéo cartoon 🎨</div>
         <div class="result-block">
-          <div class="result-label">Vidéo cartoon générée</div>
+          <div class="result-label">Vidéo générée</div>
           <div id="r-video"></div>
-        </div>
-        <div class="result-block">
-          <div class="result-label">Script original</div>
-          <div class="result-text" id="r-script" style="font-style:italic"></div>
-        </div>
-        <div class="result-block">
-          <div class="result-label">Pourquoi ça cartonne</div>
-          <div class="result-text" id="r-analysis"></div>
         </div>
       </div>
     </div>
@@ -157,7 +154,7 @@
       Découvrir
     </button>
     <button class="nav-btn" onclick="goTo('cartoon',1)">
-      <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
       Cartoon
     </button>
     <button class="nav-btn" onclick="goTo('result',2)">
@@ -169,9 +166,9 @@
 
 <script>
 const RAPIDAPI_KEY = "0c5e4db21fmsh59e7d051432f496p13b245jsn2dd35f240b58";
-const ASSEMBLYAI_KEY = "386bc3106f464fa2a9615d733a9381f7";
 const SERVER = "https://trendai-server-production.up.railway.app";
 let selectedVideo = null;
+let selectedModel = 'illustration-v20';
 
 function goTo(page, idx) {
   document.querySelectorAll('video').forEach(v => v.pause());
@@ -179,6 +176,12 @@ function goTo(page, idx) {
   document.getElementById('page-' + page).classList.add('active');
   document.querySelectorAll('.nav-btn').forEach((b,i) => b.classList.toggle('active', i === idx));
   document.querySelector('.content').scrollTop = 0;
+}
+
+function selectStyle(btn, model) {
+  document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedModel = model;
 }
 
 function fmt(n) {
@@ -262,7 +265,7 @@ function selectVideo(card, v) {
   document.getElementById('sel-meta').textContent = `@${v.author?.nickname||'creator'} • ${fmt(v.play_count||0)} vues`;
   document.getElementById('cartoon-empty').style.display = 'none';
   document.getElementById('cartoon-content').style.display = 'block';
-  [1,2,3,4,5].forEach(i => { const el = document.getElementById('si'+i); el.className='step-icon pending'; el.textContent=i; });
+  [1,2,3].forEach(i => { const el = document.getElementById('si'+i); el.className='step-icon pending'; el.textContent=i; });
   goTo('cartoon', 1);
 }
 
@@ -292,90 +295,47 @@ async function startCartoon() {
   const btn = document.getElementById('rec-btn');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>Transformation en cours...';
-
   const playUrl = selectedVideo.play || selectedVideo.video?.playAddr || '';
-  const title = selectedVideo.title || selectedVideo.desc || '';
-  const author = selectedVideo.author?.nickname || 'creator';
-  const cover = selectedVideo.cover || selectedVideo.video?.cover || '';
 
   try {
-    setStep(1, 'running', 'Téléchargement de la vidéo...');
+    setStep(1, 'running', 'Téléchargement de la vidéo TikTok...');
     let videoBase64 = '';
     try {
       videoBase64 = await videoToBase64(playUrl);
       setStep(1, 'done', 'Vidéo téléchargée !');
     } catch(e) {
-      setStep(1, 'error', 'Erreur téléchargement: ' + e.message);
+      setStep(1, 'error', 'Erreur: ' + e.message);
       throw e;
     }
 
-    setStep(2, 'running', 'Extraction du texte...');
-    let transcript = '';
-    if (playUrl) {
-      try {
-        const sr = await fetch('https://api.assemblyai.com/v2/transcript', {
-          method: 'POST',
-          headers: { 'authorization': ASSEMBLYAI_KEY, 'content-type': 'application/json' },
-          body: JSON.stringify({ audio_url: playUrl, language_code: 'fr' })
-        });
-        const sd = await sr.json();
-        for (let a=0; a<15; a++) {
-          await sleep(3000);
-          const pr = await fetch(`https://api.assemblyai.com/v2/transcript/${sd.id}`, { headers: { 'authorization': ASSEMBLYAI_KEY } });
-          const pd = await pr.json();
-          if (pd.status==='completed') { transcript=pd.text||''; break; }
-          if (pd.status==='error') break;
-        }
-      } catch(e) {}
-    }
-    if (!transcript) transcript = title;
-    setStep(2, 'done', `"${transcript.slice(0,50)}..."`);
-
-    setStep(3, 'running', 'Analyse IA du style...');
-    const ar = await fetch(`${SERVER}/analyze`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ transcript, author, cover })
-    });
-    const analysis = await ar.json();
-    if (analysis.error) throw new Error(analysis.error);
-    setStep(3, 'done', analysis.style_visuel?.slice(0,60));
-
-    setStep(4, 'running', 'DomoAI transforme en cartoon (2-3 min)...');
+    setStep(2, 'running', 'DomoAI transforme en cartoon (2-3 min)...');
     const cartoonRes = await fetch(`${SERVER}/cartoon`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        video_base64: videoBase64,
-        prompt: analysis.cartoon_prompt
-      })
+      body: JSON.stringify({ video_base64: videoBase64, model: selectedModel })
     });
     const cartoonData = await cartoonRes.json();
     if (cartoonData.error) throw new Error(cartoonData.error);
     const cartoonUrl = cartoonData.url;
-    setStep(4, 'done', 'Cartoon généré !');
+    setStep(2, 'done', 'Cartoon généré !');
 
-    setStep(5, 'running', 'Assemblage...');
-    await sleep(500);
-    setStep(5, 'done', 'Ta vidéo cartoon est prête !');
+    setStep(3, 'done', 'Ta vidéo cartoon est prête !');
 
     document.getElementById('result-empty').style.display = 'none';
     document.getElementById('result-content').style.display = 'block';
-    document.getElementById('r-script').textContent = `"${transcript}"`;
-    document.getElementById('r-analysis').textContent = analysis.analyse;
 
     const vid = document.getElementById('r-video');
     vid.innerHTML = cartoonUrl
-      ? `<video controls playsinline style="width:100%;border-radius:10px"><source src="${cartoonUrl}" type="video/mp4"></video><a href="${cartoonUrl}" download="cartoon_tiktok.mp4" class="download-btn">⬇ Télécharger la vidéo cartoon</a>`
-      : `<p style="font-size:13px;color:var(--gray-5)">Erreur génération vidéo</p>`;
+      ? `<video controls playsinline><source src="${cartoonUrl}" type="video/mp4"></video><a href="${cartoonUrl}" download="cartoon.mp4" class="download-btn">⬇ Télécharger</a>`
+      : `<p style="font-size:13px;color:var(--gray-5)">Erreur génération</p>`;
 
     goTo('result', 2);
-    btn.textContent = 'Relancer';
+    btn.textContent = '🎨 Relancer';
     btn.disabled = false;
   } catch(e) {
-    setStep(4, 'error', 'Erreur: ' + e.message);
+    setStep(2, 'error', 'Erreur: ' + e.message);
     btn.disabled = false;
-    btn.textContent = 'Réessayer';
+    btn.textContent = '🎨 Réessayer';
   }
 }
 </script>

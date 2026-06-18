@@ -314,8 +314,8 @@ async function startCartoon() {
     });
     const startData = await startRes.json();
     if (startData.error) throw new Error(startData.error);
-    const taskId = startData.task_id;
-    setStep(2, 'done', 'Tâche lancée !');
+    const taskId = startData.job_id;
+    setStep(2, 'done', 'Traitement lancé !');
 
     setStep(3, 'running', 'DomoAI génère le cartoon...');
     document.getElementById('progress-wrap').style.display = 'block';
@@ -332,7 +332,8 @@ async function startCartoon() {
       const statusData = await statusRes.json();
 
       if (statusData.status === 'done') {
-        cartoonUrl = statusData.url;
+        const blob = new Blob([Uint8Array.from(atob(statusData.video_base64), c => c.charCodeAt(0))], {type: 'video/mp4'});
+        cartoonUrl = URL.createObjectURL(blob);
         break;
       } else if (statusData.status === 'error') {
         throw new Error(statusData.error);

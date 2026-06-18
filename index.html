@@ -304,21 +304,13 @@ async function startCartoon() {
   const playUrl = selectedVideo.play || selectedVideo.video?.playAddr || '';
 
   try {
-    setStep(1, 'running', 'Téléchargement...');
-    let videoBase64 = '';
-    try {
-      videoBase64 = await videoToBase64(playUrl);
-      setStep(1, 'done', 'Vidéo téléchargée !');
-    } catch(e) {
-      setStep(1, 'error', 'Erreur: ' + e.message);
-      throw e;
-    }
+   setStep(1, 'done', 'URL vidéo récupérée !');
 
     setStep(2, 'running', 'Envoi à DomoAI...');
     const startRes = await fetch(`${SERVER}/cartoon/start`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ video_base64: videoBase64, model: selectedModel })
+      body: JSON.stringify({ video_url: playUrl, model: selectedModel })
     });
     const startData = await startRes.json();
     if (startData.error) throw new Error(startData.error);
